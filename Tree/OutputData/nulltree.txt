@@ -1,0 +1,6 @@
+myTree
+id:2 fn:Valentina ln:Bulatova
+ id:5 fn:Sergey ln:Yuzhakov
+  id:11 fn:Misha ln:Yuzhakov
+ id:6 fn:Evgenii ln:Yuzhakov
+  id:12 fn:Artem ln:Yuzhakov

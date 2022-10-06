@@ -1,0 +1,7 @@
+id:11 fn:Misha ln:Yuzhakov
+ id:5 fn:Sergey ln:Yuzhakov
+  id:1 fn:Valerii ln:Yuzhakov
+  id:2 fn:Valentina ln:Bulatova
+ id:8 fn:Natalia ln:Russkikh
+  id:3 fn:Yurii ln:Russkikh
+  id:4 fn:Nina ln:Russkikh
