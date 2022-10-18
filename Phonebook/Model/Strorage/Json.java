@@ -5,12 +5,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.Scanner;
-
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
+import org.json.simple.parser.*;
 import Model.Contact;
 import Model.ContactBuilder;
 import Model.Phonebook;
@@ -18,11 +16,9 @@ import Model.Phonebook;
 public class Json implements Storage {
     private String name = "pb.json";
     private File file;
-    private JSONObject json;
     
     public Json() throws IOException {
         file = new File(this.name);
-        json = new JSONObject();
         file.createNewFile(); //создаст файл
     }
 
@@ -46,7 +42,8 @@ public class Json implements Storage {
 
     @Override
     public String serialize(ArrayList<Contact> contacts) {
-        JSONObject contactsList = new JSONObject();
+        JSONObject contactsListJson = new JSONObject();
+        JSONObject contactJson;
         /*
         {
             "1":{"name":"Andrew", "phonenumber":"111111"},
@@ -54,30 +51,40 @@ public class Json implements Storage {
             "3":{"name":"Andrew", "phonenumber":"111111"}
         }
         */
-        for (Contact contact : contacts) {
-            contactsList.put("id", contact.getId());
-            contactsList.put("name", contact.getName());
-            contactsList.put("phonenumber", contact.getPhoneNumber());
+        for (Contact c : contacts) {
+            contactJson = new JSONObject();
+            contactJson.put("name", c.getName());
+            contactJson.put("phonenumber", c.getPhoneNumber());
+            contactsListJson.put(c.getId(), contactJson);
         }
-        System.out.println(contactsList);
-        return contactsList.toString();
+        return contactsListJson.toString();
     }
 
     @Override
-    public ArrayList<Contact> deserialize(String content) throws ParseException {
+    public ArrayList<Contact> deserialize(String content) {
         ArrayList<Contact> contacts = new ArrayList<>();
-        // ContactBuilder builder = new ContactBuilder();
-        // JSONParser parser = new JSONParser();
-        // JSONObject contactsList = (JSONObject) parser.parse(content);
-        
-        // while (contactsList.size() > 0) {
-        //     Integer id = (Integer) contactsList.get("id");
-        //     String name = (String) contactsList.get("name");
-        //     String phonenumber = (String) contactsList.get("phonenumber");
-        //     Contact contact = builder.setId(id).setName(name).setPhoneNumber(phonenumber).createContact();
-        //     contacts.add(contact);
-        // }
+        ContactBuilder builder = new ContactBuilder();
+        JSONParser parser = new JSONParser();
+        JSONObject contactJson = new JSONObject();
+        JSONObject contactsListJson;
+        // contactsListJson = (JSONObject) parser.parse(content); dont work
+        try {
+            contactsListJson = (JSONObject) parser.parse(content);
+        } catch (org.json.simple.parser.ParseException e) {
+            contactsListJson = null;
+            e.printStackTrace();
+        }
+
+        Integer id = 1;
+        while (contactJson != null) {
+            contactJson = (JSONObject) contactsListJson.get(String.format("%d", id++));
+            if (contactJson != null) {
+                String name = (String) contactJson.get("name");
+                String phonenumber = (String) contactJson.get("phonenumber");
+                Contact contact = builder.setId(id).setName(name).setPhoneNumber(phonenumber).createContact();
+                contacts.add(contact);
+            }
+        }
         return contacts;
     }
-    
 }

@@ -1,5 +1,7 @@
 package Model;
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.ArrayList;
 
 import Model.Strorage.*;
 
@@ -34,9 +36,13 @@ public class newModel implements Model {
     }
 
     @Override
-    public void myImport() {
-       
-        
+    public void myImport() throws IOException, ParseException {
+        st.myImport(pb1);
+    }
+
+    @Override
+    public ArrayList<Contact> getcontactList() {
+        return pb1.contacts;
     }
     
 }

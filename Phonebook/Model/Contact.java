@@ -5,6 +5,12 @@ public class Contact {
     protected String name;
     protected String phoneNumber;
 
+    enum group {
+        FRIENDS,
+        COLLEGUES,
+        RELATIVES
+    }
+
     protected Contact(Integer id, String name, String phoneNumber) {
         this.id = id;
         this.name = name;
