@@ -9,7 +9,7 @@ public class Presenter {
     View v;
     
     public Presenter(Model m, View v) throws IOException {
-        this.m = new newModel();
+        this.m = new newModel("csv"); //or csv or json
         this.v = new ConsoleView();
         
     }
@@ -17,14 +17,14 @@ public class Presenter {
     /**
      * Fill phonebook
      */
-    public void button1Click() {
+    public void fillButton() {
         m.fillPhonebook(v.getData());
     }
 
     /**
      * View phonebook
      */
-    public void button2Click() {
+    public void printButton() {
         v.printPhonebook(m.getPhonebook());
     }
 
@@ -32,7 +32,7 @@ public class Presenter {
      * Export data
      * @throws IOException
      */
-    public void button3Click() throws IOException {
+    public void exportButton() throws IOException {
         m.myExport();
     }
 
@@ -41,14 +41,14 @@ public class Presenter {
      * @throws IOException
      * @throws ParseException
      */
-    public void button4Click() throws IOException, ParseException {
+    public void importButton() throws IOException, ParseException {
         m.myImport();
     }
 
     /**
      * View menu and contact
      */
-    public void button5Click() {
+    public void menuButton() {
         Boolean isCmd = true;
         Integer pointer = 0;
         while (isCmd) {

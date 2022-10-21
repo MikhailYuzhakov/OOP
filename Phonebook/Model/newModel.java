@@ -9,9 +9,19 @@ public class newModel implements Model {
     Phonebook pb1;
     Storage st;
     
-    public newModel() throws IOException {
+    public newModel(String format) throws IOException {
         pb1 = new Phonebook(223);
-        st = new Json();
+        switch (format) {
+            case "json":
+                st = new Json();
+                break;
+            case "csv":
+                st = new Csv();
+                break;
+            default:
+                st = new Json();
+                break;
+        }
     }
 
     @Override

@@ -67,7 +67,7 @@ public class Json implements Storage {
         JSONParser parser = new JSONParser();
         JSONObject contactJson = new JSONObject();
         JSONObject contactsListJson;
-        // contactsListJson = (JSONObject) parser.parse(content); dont work
+        // contactsListJson = (JSONObject) parser.parse(content); don't work
         try {
             contactsListJson = (JSONObject) parser.parse(content);
         } catch (org.json.simple.parser.ParseException e) {
