@@ -5,9 +5,9 @@ public class Employee{
     public String name;
     public String surName;
     public String phonenumber;
-    public String salary;
+    public Integer salary;
 
-    public Employee(Integer id,String name, String surName, String phonenumber,String salary){
+    public Employee(Integer id,String name, String surName, String phonenumber, Integer salary){
         this.id = id;
         this.name = name;
         this.surName = surName;
@@ -18,7 +18,7 @@ public class Employee{
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(id+" ").append(name+" ").append(surName+": ").append(phonenumber+": ").append(salary+": ");
+        sb.append(id+" ").append(name+" ").append(surName+" ").append(phonenumber+" ").append(salary+"\n");
         return sb.toString();
     }
 
