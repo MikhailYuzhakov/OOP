@@ -1,12 +1,11 @@
-package Tree;
+package UI;
+import Core.GenerationTree;
+import Core.Human;
 
-public class View {
-    GenerationTree tree;
-    String name;
+public class View implements IView {
 
-    public View(GenerationTree myTree) {
-        this.name = myTree.getName();
-        this.tree = myTree;
+    public View() {
+        super();
     }
 
     /**
@@ -14,49 +13,55 @@ public class View {
      * @param h - точка входа в дерево
      * @param direction - направление обхода, true - от предков к потомкам
      */
-    private void print(Human h, StringBuilder sb, String str, boolean direction, Integer currentGen, Integer targetGen)
+    @Override
+    public void print(Human h, StringBuilder sb, String str, boolean direction, Integer currentGen, Integer targetGen)
     {
         if (h != null) {
-            sb.append(String.format("%sid:%d fn:%s ln:%s\n", str, h.getHumanId(), h.fn, h.ln));
+            sb.append(String.format("%sid:%s fn:%s ln:%s\n", str, h.getID(), h.getFirstName(), h.getLastName()));
             if (direction) {
+                System.out.println(h.getDad());
                 if (currentGen == targetGen)
                     return;
                 else
                     currentGen++;
-                if (h.dad != null) 
-                    print(h.dad, sb, str + " ", direction, currentGen, targetGen);
-                if (h.mom != null) 
-                    print(h.mom, sb, str + " ", direction, currentGen, targetGen);
+                if (h.getDad() != null) 
+                    print(h.getDad(), sb, str + " ", direction, currentGen, targetGen);
+                if (h.getMom() != null) 
+                    print(h.getMom(), sb, str + " ", direction, currentGen, targetGen);
             } else {
-                if (!h.childs.isEmpty()) {
+                if (!h.getChilds().isEmpty()) {
                     str += ' ';
                     if (currentGen == targetGen)
                         return;
                     else {
                         currentGen++;
                     }
-                    for (Human child : h.childs) {
+                    for (Human child : h.getChilds()) {
                         print(child, sb, str, direction, currentGen, targetGen); // прибавить 1 поколение
                     }    
                 }
             }
         }
     }
-
-    public String allBranch() {
+    
+    @Override
+    public String allBranch(GenerationTree tree) {
         StringBuilder sb = new StringBuilder();
         sb.append(tree.getName());
         sb.append("\n");
-        this.print(tree.getFirst(), sb, "", false, 0, 5);
+        this.print(tree.getNodeByFullName("Валерий", "Южаков"), sb, "", false, 0, 5);
+        System.out.println(sb);
         return sb.toString();
     }
 
+    @Override
     public String getGrandson(Human h) {
         StringBuilder sb = new StringBuilder();
         this.print(h, sb, "", false, 0, 2);
         return sb.toString();
     }
 
+    @Override
     public String getFather(Human h) {
         StringBuilder sb = new StringBuilder();
         this.print(h, sb, "", false, 0, 1);
